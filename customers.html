@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>List of Customers</title>
+  <style>
+    .card {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  
+  <h1>List of Customers</h1>
+  <p>Total number of customers: <span id="total-customers"></span></p>
+  <div id="customers"></div>
+  <script>
+    fetch('/api/customers')
+      .then(response => response.json())
+      .then(data => {
+        const customers = data.items;
+        const customersDiv = document.getElementById('customers');
+        const totalCustomersSpan = document.getElementById('total-customers');
+        totalCustomersSpan.innerText = data.totalCount;
+        customers.forEach(customer => {
+          const card = document.createElement('div');
+          card.classList.add('card');
+          card.innerHTML = `
+          <a href="/customers/${customer.id}">
+              <h2>${customer.companyProfile.companyName}</h2>
+              <p>ID: ${customer.id}</p>
+              <p>Relationship to Partner: ${customer.relationshipToPartner}</p>
+            </a>
+          `;
+          customersDiv.appendChild(card);
+        });
+      });
+  </script>
+</body>
+</html>

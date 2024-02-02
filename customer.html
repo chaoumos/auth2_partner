@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Customer Details</title>
+  <style>.loader {
+    border: 8px solid #f3f3f3; /* Light grey */
+    border-top: 8px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 2s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+ 
+  </style>
+</head>
+<body>
+  <h2>Customer Details</h2>
+  <p><strong>ID:</strong> <span id="id"></span></p>
+  <p><strong>Company Name:</strong> <span id="company-name"></span></p>
+  <p><strong>Email:</strong> <span id="email"></span></p>
+  <p><strong>Country:</strong> <span id="country"></span></p>
+  <p><strong>City:</strong> <span id="city"></span></p>
+  <p><strong>Address Line 1:</strong> <span id="address-line-1"></span></p>
+  <p><strong>Postal Code:</strong> <span id="postal-code"></span></p>
+  <p><strong>First Name:</strong> <span id="first-name"></span></p>
+  <p><strong>Last Name:</strong> <span id="last-name"></span></p>
+  <p><strong>Phone Number:</strong> <span id="phone-number"></span></p>
+  
+  <div id="spiner" class="loader"></div>
+
+  <script>
+    var url = window.location.pathname;
+    var id = url.split('/').pop();
+    // console.log(`url============== ${url} ${id}`)
+   var spiner= document.getElementById('spiner');
+   spiner.style.display='block';
+
+    fetch(`/api/customers/${id}`)
+      .then(response => response.json())
+      .then(customer => {
+        document.getElementById("id").innerText = customer.id;
+        document.getElementById("company-name").innerText = customer.companyProfile.companyName;
+        document.getElementById("email").innerText = customer.billingProfile.email;
+        document.getElementById("country").innerText = customer.billingProfile.defaultAddress.country;
+        document.getElementById("city").innerText = customer.billingProfile.defaultAddress.city;
+        document.getElementById("address-line-1").innerText = customer.billingProfile.defaultAddress.addressLine1;
+        document.getElementById("postal-code").innerText = customer.billingProfile.defaultAddress.postalCode;
+        document.getElementById("first-name").innerText = customer.billingProfile.defaultAddress.firstName;
+        document.getElementById("last-name").innerText = customer.billingProfile.defaultAddress.lastName;
+        document.getElementById("phone-number").innerText = customer.billingProfile.defaultAddress.phoneNumber;
+       spiner.style.display='none';
+      })
+      .catch(error => console.log(error));
+     
+  </script>
+</body>
+</html>
+
