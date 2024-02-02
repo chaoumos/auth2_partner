@@ -8,4 +8,4 @@
  npm run start
 ```
 
-make sure to setup callback url on azure
+make sure to setup callback url on Azure app registration 
